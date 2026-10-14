@@ -46,7 +46,7 @@ discount above limit, handover with dues). Use a test site: it posts invoices an
 
 ## Layout
 
-Follows the `vsgil_sugar` structure: one app, one folder per module (`sanvidhi_epc`, `epc_projects`,
-`plot_sales`) each with `doctype/`, `number_card/`, `print_format/` and `workspace/`; app-level
-`desktop_icon/`, `workspace_sidebar/`, `public/icons/desktop_icons/{solid,subtle}/`, `setup/`, `tasks/`,
-`utils/` and `tests/`.
+Follows the `vsgil_sugar` structure: `sanvidhi_epc/<module>/` with `doctype/`, `number_card/`,
+`print_format/`, `workspace/` (and `sidebar/` for Frappe 16.52+); app-level `desktop_icon/`,
+`workspace_sidebar/`, `public/icons/desktop_icons/{solid,subtle}/`, `public/images/`, `setup/`, `tasks/`,
+`utils/`, `patches/` and `tests/`. One module, **Sanvidhi EPC**, so there is exactly one workspace and sidebar.

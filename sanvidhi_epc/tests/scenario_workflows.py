@@ -21,7 +21,7 @@ def run():
 	RESULTS = []
 	COMPANY = frappe.db.get_value("Company", {}, "name")
 	ABBR = frappe.db.get_value("Company", COMPANY, "abbr")
-	CRA = "sanvidhi_epc.epc_projects.doctype.contractor_ra_bill.contractor_ra_bill"
+	CRA = "sanvidhi_epc.sanvidhi_epc.doctype.contractor_ra_bill.contractor_ra_bill"
 
 	def check(name, fn):
 		try:
@@ -224,7 +224,7 @@ def run():
 		assert_eq(bill.status, "Certified", "client bill status")
 		assert_eq(bill.certified_amount, 320000, "certified amount")
 		si = frappe.get_doc("Sales Invoice", frappe.call(
-			"sanvidhi_epc.epc_projects.doctype.client_ra_bill.client_ra_bill.make_sales_invoice", source_name=CB))
+			"sanvidhi_epc.sanvidhi_epc.doctype.client_ra_bill.client_ra_bill.make_sales_invoice", source_name=CB))
 		assert_eq(si.items[0].rate, 320000, "invoice at certified value")
 		return si.name
 
@@ -315,7 +315,7 @@ def run():
 		from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
 
 		so = frappe.get_doc("Sales Order", frappe.call(
-			"sanvidhi_epc.plot_sales.doctype.plot_booking.plot_booking.make_sales_order", source_name=B))
+			"sanvidhi_epc.sanvidhi_epc.doctype.plot_booking.plot_booking.make_sales_order", source_name=B))
 		so.submit()
 		pe = get_payment_entry("Sales Order", so.name)
 		pe.paid_amount = pe.received_amount = 168000
@@ -376,7 +376,9 @@ def run():
 
 def report(results):
 	passed = sum(1 for r in results if r[0] == "PASS")
-	lines = [f"{s}  {n}" + (f"\n      {d}" if s == "FAIL" else "") for s, n, d in results]
+	lines = [
+		f"{s}  {n}" + (f"\n      {d}" if s == "FAIL" or str(d).startswith("blocked") else "") for s, n, d in results
+	]
 	print("\n".join(lines))
 	print(f"\n{passed}/{len(results)} checks passed")
 	return {"passed": passed, "total": len(results)}

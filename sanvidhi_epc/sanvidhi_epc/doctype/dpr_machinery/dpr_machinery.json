@@ -1,0 +1,57 @@
+{
+ "actions": [],
+ "creation": "2026-10-14 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "equipment",
+  "hours",
+  "fuel_litres",
+  "remarks"
+ ],
+ "fields": [
+  {
+   "fieldname": "equipment",
+   "fieldtype": "Data",
+   "label": "Equipment",
+   "reqd": 1,
+   "in_list_view": 1,
+   "columns": 3
+  },
+  {
+   "fieldname": "hours",
+   "fieldtype": "Float",
+   "label": "Hours Run",
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "fuel_litres",
+   "fieldtype": "Float",
+   "label": "Fuel (L)",
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "remarks",
+   "fieldtype": "Data",
+   "label": "Remarks",
+   "in_list_view": 1,
+   "columns": 3
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-14 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Sanvidhi EPC",
+ "name": "DPR Machinery",
+ "owner": "Administrator",
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1,
+ "editable_grid": 1,
+ "permissions": []
+}

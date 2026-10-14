@@ -1,9 +1,14 @@
 {
  "app": "sanvidhi_epc",
  "charts": [],
- "content": "[{\"id\": \"he001\", \"type\": \"header\", \"data\": {\"text\": \"<span class='h4'><b>Today at a Glance</b></span>\", \"col\": 12}}, {\"id\": \"nu002\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Open Work Orders\", \"col\": 4}}, {\"id\": \"nu003\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"RA Bills to Invoice\", \"col\": 4}}, {\"id\": \"nu004\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Client Bills Awaiting Certification\", \"col\": 4}}, {\"id\": \"nu005\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Plots Available\", \"col\": 4}}, {\"id\": \"nu006\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Plot Dues Outstanding\", \"col\": 4}}, {\"id\": \"nu007\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"DPRs Submitted Today\", \"col\": 4}}, {\"id\": \"sp008\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"he009\", \"type\": \"header\", \"data\": {\"text\": \"<span class='h4'><b>Sanvidhi EPC Apps</b></span>\", \"col\": 12}}, {\"id\": \"sh010\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"BOQ\", \"col\": 3}}, {\"id\": \"sh011\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Work Orders\", \"col\": 3}}, {\"id\": \"sh012\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Measurement Book\", \"col\": 3}}, {\"id\": \"sh013\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Contractor RA Bill\", \"col\": 3}}, {\"id\": \"sh014\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Client RA Bill\", \"col\": 3}}, {\"id\": \"sh015\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Certification\", \"col\": 3}}, {\"id\": \"sh016\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Daily Progress Report\", \"col\": 3}}, {\"id\": \"sh017\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Daily Digest\", \"col\": 3}}, {\"id\": \"sh018\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Plots\", \"col\": 3}}, {\"id\": \"sh019\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Plot Booking\", \"col\": 3}}, {\"id\": \"sh020\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Demand Letter\", \"col\": 3}}, {\"id\": \"sh021\", \"type\": \"shortcut\", \"data\": {\"shortcut_name\": \"Plot Handover\", \"col\": 3}}, {\"id\": \"sp022\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"he023\", \"type\": \"header\", \"data\": {\"text\": \"<span class='h4'><b>Workflows</b></span>\", \"col\": 12}}, {\"id\": \"ca024\", \"type\": \"card\", \"data\": {\"card_name\": \"Estimate & Award\", \"col\": 4}}, {\"id\": \"ca025\", \"type\": \"card\", \"data\": {\"card_name\": \"Measure & Bill\", \"col\": 4}}, {\"id\": \"ca026\", \"type\": \"card\", \"data\": {\"card_name\": \"Site Reporting\", \"col\": 4}}, {\"id\": \"ca027\", \"type\": \"card\", \"data\": {\"card_name\": \"Plot Sales\", \"col\": 4}}, {\"id\": \"ca028\", \"type\": \"card\", \"data\": {\"card_name\": \"Accounts\", \"col\": 4}}, {\"id\": \"ca029\", \"type\": \"card\", \"data\": {\"card_name\": \"Setup\", \"col\": 4}}]",
+ "content": "[{\"id\": \"cu001\", \"type\": \"custom_block\", \"data\": {\"custom_block_name\": \"Sanvidhi EPC Apps\", \"col\": 12}}, {\"id\": \"sp002\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"he003\", \"type\": \"header\", \"data\": {\"text\": \"<span class='h4'><b>Today at a Glance</b></span>\", \"col\": 12}}, {\"id\": \"nu004\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Open Work Orders\", \"col\": 4}}, {\"id\": \"nu005\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"RA Bills to Invoice\", \"col\": 4}}, {\"id\": \"nu006\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Client Bills Awaiting Certification\", \"col\": 4}}, {\"id\": \"nu007\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Plots Available\", \"col\": 4}}, {\"id\": \"nu008\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Plot Dues Outstanding\", \"col\": 4}}, {\"id\": \"nu009\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"DPRs Submitted Today\", \"col\": 4}}, {\"id\": \"sp010\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"he011\", \"type\": \"header\", \"data\": {\"text\": \"<span class='h4'><b>Workflows</b></span>\", \"col\": 12}}, {\"id\": \"ca012\", \"type\": \"card\", \"data\": {\"card_name\": \"Estimate & Award\", \"col\": 4}}, {\"id\": \"ca013\", \"type\": \"card\", \"data\": {\"card_name\": \"Measure & Bill\", \"col\": 4}}, {\"id\": \"ca014\", \"type\": \"card\", \"data\": {\"card_name\": \"Site Reporting\", \"col\": 4}}, {\"id\": \"ca015\", \"type\": \"card\", \"data\": {\"card_name\": \"Plot Sales\", \"col\": 4}}, {\"id\": \"ca016\", \"type\": \"card\", \"data\": {\"card_name\": \"Accounts\", \"col\": 4}}, {\"id\": \"ca017\", \"type\": \"card\", \"data\": {\"card_name\": \"Setup\", \"col\": 4}}]",
  "creation": "2026-10-14 12:00:00.000000",
- "custom_blocks": [],
+ "custom_blocks": [
+  {
+   "custom_block_name": "Sanvidhi EPC Apps",
+   "label": "Sanvidhi EPC Apps"
+  }
+ ],
  "docstatus": 0,
  "doctype": "Workspace",
  "for_user": "",
@@ -273,7 +278,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-10-14 12:00:00.000000",
+ "modified": "2026-10-14 13:00:00.000000",
  "modified_by": "Administrator",
  "module": "Sanvidhi EPC",
  "name": "Sanvidhi EPC",
@@ -310,110 +315,7 @@
  "restrict_to_domain": "",
  "roles": [],
  "sequence_id": 30.0,
- "shortcuts": [
-  {
-   "color": "Orange",
-   "doc_view": "",
-   "icon": "clipboard-list",
-   "label": "BOQ",
-   "link_to": "BOQ",
-   "type": "DocType"
-  },
-  {
-   "color": "Orange",
-   "doc_view": "",
-   "icon": "hard-hat",
-   "label": "Work Orders",
-   "link_to": "Contractor Work Order",
-   "type": "DocType",
-   "stats_filter": "{\"status\":\"Open\"}"
-  },
-  {
-   "color": "Yellow",
-   "doc_view": "",
-   "icon": "ruler",
-   "label": "Measurement Book",
-   "link_to": "Measurement Book",
-   "type": "DocType",
-   "stats_filter": "{\"docstatus\":0}"
-  },
-  {
-   "color": "Red",
-   "doc_view": "",
-   "icon": "receipt-text",
-   "label": "Contractor RA Bill",
-   "link_to": "Contractor RA Bill",
-   "type": "DocType",
-   "stats_filter": "{\"status\":\"Certified\"}"
-  },
-  {
-   "color": "Blue",
-   "doc_view": "",
-   "icon": "receipt",
-   "label": "Client RA Bill",
-   "link_to": "Client RA Bill",
-   "type": "DocType",
-   "stats_filter": "{\"status\":\"Submitted\"}"
-  },
-  {
-   "color": "Green",
-   "doc_view": "",
-   "icon": "badge-check",
-   "label": "Certification",
-   "link_to": "Certification",
-   "type": "DocType"
-  },
-  {
-   "color": "Cyan",
-   "doc_view": "New",
-   "icon": "notebook-pen",
-   "label": "Daily Progress Report",
-   "link_to": "Daily Progress Report",
-   "type": "DocType"
-  },
-  {
-   "color": "Grey",
-   "doc_view": "",
-   "icon": "newspaper",
-   "label": "Daily Digest",
-   "link_to": "Daily Digest",
-   "type": "DocType"
-  },
-  {
-   "color": "Green",
-   "doc_view": "",
-   "icon": "land-plot",
-   "label": "Plots",
-   "link_to": "Plot",
-   "type": "DocType",
-   "stats_filter": "{\"status\":\"Available\"}"
-  },
-  {
-   "color": "Purple",
-   "doc_view": "",
-   "icon": "map-pin",
-   "label": "Plot Booking",
-   "link_to": "Plot Booking",
-   "type": "DocType"
-  },
-  {
-   "color": "Pink",
-   "doc_view": "",
-   "icon": "mail",
-   "label": "Demand Letter",
-   "link_to": "Demand Letter",
-   "type": "DocType",
-   "stats_filter": "{\"docstatus\":0}"
-  },
-  {
-   "color": "Purple",
-   "doc_view": "",
-   "icon": "key-round",
-   "label": "Plot Handover",
-   "link_to": "Plot Handover",
-   "type": "DocType"
-  }
- ],
+ "shortcuts": [],
  "title": "Sanvidhi EPC",
  "type": "Workspace"
 }

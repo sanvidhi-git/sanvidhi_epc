@@ -1,16 +1,25 @@
 # Sanvidhi EPC (`sanvidhi_epc`) - design notes
 
-## 1. One app, three modules, one workspace
+## 1. One app, one module, one workspace
 
-| Module | Owns | Workspace |
-| --- | --- | --- |
-| Sanvidhi EPC | Sanvidhi EPC Settings, the workspace | Sanvidhi EPC (the only one) |
-| EPC Projects | BOQ, Contractor Work Order, Measurement Book, Contractor RA Bill, Client RA Bill, Certification, Daily Progress Report, Daily Digest | - |
-| Plot Sales | Plot, Plot Booking, Demand Letter, Plot Handover | - |
+Every document type sits in the single module **Sanvidhi EPC**, so the app has exactly one workspace and
+one sidebar. Frappe v16.52+ resolves a form's sidebar from its module: with one module, the curated
+Sanvidhi EPC sidebar (with an icon on every item) stays on screen from the workspace to any form.
 
-The user sees one desktop tile (App icon, `desktop_icon/sanvidhi_epc.json`), one sidebar
-(`workspace_sidebar/sanvidhi_epc.json`) and one workspace. Every DocType carries a Lucide `icon`; the same
-icon is used on its sidebar item, workspace link and shortcut, so a document is recognisable everywhere.
+| Area | Documents |
+| --- | --- |
+| Estimate & award | BOQ, Contractor Work Order |
+| Measure & bill | Measurement Book, Contractor RA Bill, Client RA Bill, Certification |
+| Site reporting | Daily Progress Report, Daily Digest |
+| Plot sales | Plot, Plot Booking, Demand Letter, Plot Handover |
+| Setup | Sanvidhi EPC Settings |
+
+The user sees one desktop tile (App icon, `desktop_icon/sanvidhi_epc.json`), one sidebar and one workspace.
+The sidebar ships in both formats: `workspace_sidebar/sanvidhi_epc.json` (Frappe v16 before 16.52, the
+`vsgil_sugar` layout) and `sanvidhi_epc/sidebar/sanvidhi_epc/` (16.52+, made with `bench convert-sidebar-fixtures`).
+The workspace opens with an icon grid of every app (`setup/module_tiles.py`, rebuilt on each migrate), each
+app drawn from its own solid desktop icon in `public/icons/desktop_icons/solid/`. Every DocType carries a Lucide `icon`; the same
+icon is used on its sidebar item and workspace link, and its SVG on the app tile, so a document is recognisable everywhere.
 
 | Document | Icon |
 | --- | --- |

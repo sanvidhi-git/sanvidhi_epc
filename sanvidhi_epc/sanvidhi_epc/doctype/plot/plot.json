@@ -1,0 +1,208 @@
+{
+ "actions": [],
+ "creation": "2026-10-14 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "layout",
+  "plot_no",
+  "plot_type",
+  "facing",
+  "cb_1",
+  "area_sqft",
+  "rate_per_sqft",
+  "base_value",
+  "cb_2",
+  "status",
+  "customer",
+  "plot_booking",
+  "sb_3",
+  "survey_no",
+  "seven_twelve",
+  "cb_3",
+  "layout_plan"
+ ],
+ "fields": [
+  {
+   "fieldname": "layout",
+   "fieldtype": "Link",
+   "label": "Layout / Project",
+   "options": "Project",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "plot_no",
+   "fieldtype": "Data",
+   "label": "Plot No.",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "plot_type",
+   "fieldtype": "Select",
+   "label": "Plot Type",
+   "options": "Residential\nAgricultural\nFarm House\nCommercial",
+   "default": "Residential",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "facing",
+   "fieldtype": "Select",
+   "label": "Facing",
+   "options": "\nEast\nWest\nNorth\nSouth\nNorth-East\nNorth-West\nSouth-East\nSouth-West"
+  },
+  {
+   "fieldname": "cb_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "area_sqft",
+   "fieldtype": "Float",
+   "label": "Area (sq ft)",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "rate_per_sqft",
+   "fieldtype": "Currency",
+   "label": "Rate per sq ft",
+   "reqd": 1
+  },
+  {
+   "fieldname": "base_value",
+   "fieldtype": "Currency",
+   "label": "Base Value",
+   "read_only": 1
+  },
+  {
+   "fieldname": "cb_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Available\nBooked\nSold\nBlocked",
+   "default": "Available",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "Booked and Sold are set by Plot Booking and Plot Handover"
+  },
+  {
+   "fieldname": "customer",
+   "fieldtype": "Link",
+   "label": "Customer",
+   "options": "Customer",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "plot_booking",
+   "fieldtype": "Link",
+   "label": "Current Booking",
+   "options": "Plot Booking",
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "sb_3",
+   "fieldtype": "Section Break",
+   "label": "Land Records",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "survey_no",
+   "fieldtype": "Data",
+   "label": "Survey / Gat No."
+  },
+  {
+   "fieldname": "seven_twelve",
+   "fieldtype": "Attach",
+   "label": "7/12 Extract"
+  },
+  {
+   "fieldname": "cb_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "layout_plan",
+   "fieldtype": "Attach Image",
+   "label": "Layout Plan"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-14 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Sanvidhi EPC",
+ "name": "Plot",
+ "owner": "Administrator",
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "icon": "land-plot",
+ "track_changes": 1,
+ "permissions": [
+  {
+   "role": "System Manager",
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1
+  },
+  {
+   "role": "EPC MD",
+   "read": 1,
+   "print": 1,
+   "report": 1,
+   "export": 1,
+   "email": 1,
+   "share": 1,
+   "create": 1,
+   "write": 1,
+   "delete": 1
+  },
+  {
+   "role": "Plot Sales User",
+   "read": 1,
+   "print": 1,
+   "report": 1,
+   "export": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "EPC Accounts User",
+   "read": 1,
+   "print": 1,
+   "report": 1,
+   "export": 1,
+   "email": 1,
+   "share": 1
+  },
+  {
+   "role": "EPC Project Manager",
+   "read": 1,
+   "print": 1,
+   "report": 1,
+   "export": 1,
+   "email": 1,
+   "share": 1,
+   "create": 1,
+   "write": 1
+  }
+ ],
+ "autoname": "format:{layout}-{plot_no}",
+ "naming_rule": "Expression",
+ "title_field": "plot_no",
+ "show_title_field_in_link": 1
+}
