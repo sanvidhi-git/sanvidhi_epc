@@ -1,0 +1,4 @@
+Copyright (c) 2026 Sanvidhi Tech Pvt. Ltd.
+Custom code delivered to a client under a Sanvidhi implementation contract is assigned to that client as the contract states.
+
+Licensed under the GNU General Public License v3.0 (same as Frappe and ERPNext).

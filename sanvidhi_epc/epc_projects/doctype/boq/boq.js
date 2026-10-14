@@ -1,0 +1,46 @@
+frappe.ui.form.on("BOQ", {
+	setup(frm) {
+		frm.set_query("project", () => ({ filters: { company: frm.doc.company, status: "Open" } }));
+	},
+	refresh(frm) {
+		if (frm.doc.docstatus === 1) {
+			frm.add_custom_button(__("Contractor Work Order"), () =>
+				frappe.new_doc("Contractor Work Order", { company: frm.doc.company, project: frm.doc.project, boq: frm.doc.name })
+			, __("Create"));
+			frm.add_custom_button(__("Client Measurement"), () =>
+				frappe.new_doc("Measurement Book", {
+					company: frm.doc.company, project: frm.doc.project, boq: frm.doc.name, mb_type: "Client",
+				})
+			, __("Create"));
+			frm.add_custom_button(__("Client RA Bill"), () =>
+				frappe.new_doc("Client RA Bill", { company: frm.doc.company, boq: frm.doc.name })
+			, __("Create"));
+		}
+		if (frm.doc.total_contract_value) {
+			const pct = flt(frm.doc.planned_margin_percent, 1);
+			frm.dashboard.set_headline_alert(
+				`<span class="indicator ${pct >= 15 ? "green" : "orange"}">${__("Planned margin")}: ${pct}%</span>
+				&nbsp; ${__("Contract")}: <b>${format_currency(frm.doc.total_contract_value)}</b>
+				&nbsp; ${__("Budgeted cost")}: <b>${format_currency(frm.doc.total_budgeted_cost)}</b>`
+			);
+		}
+	},
+});
+
+frappe.ui.form.on("BOQ Item", {
+	qty: (frm, cdt, cdn) => calc(frm, cdt, cdn),
+	rate: (frm, cdt, cdn) => calc(frm, cdt, cdn),
+	cost_rate: (frm, cdt, cdn) => calc(frm, cdt, cdn),
+});
+
+function calc(frm, cdt, cdn) {
+	const row = locals[cdt][cdn];
+	frappe.model.set_value(cdt, cdn, "amount", flt(row.qty) * flt(row.rate));
+	frappe.model.set_value(cdt, cdn, "cost_amount", flt(row.qty) * flt(row.cost_rate));
+	const total = (frm.doc.items || []).reduce((s, r) => s + flt(r.amount), 0);
+	const cost = (frm.doc.items || []).reduce((s, r) => s + flt(r.cost_amount), 0);
+	frm.set_value("total_contract_value", total);
+	frm.set_value("total_budgeted_cost", cost);
+	frm.set_value("planned_margin", total - cost);
+	frm.set_value("planned_margin_percent", total ? ((total - cost) / total) * 100 : 0);
+}

@@ -1,0 +1,7 @@
+/* Sanvidhi EPC: workspace and form touches */
+[data-page-route="sanvidhi-epc"] .widget.shortcut-widget-box .widget-title svg.icon {
+	stroke: #9a5b0e;
+}
+.form-dashboard .headline-alert b {
+	font-variant-numeric: tabular-nums;
+}

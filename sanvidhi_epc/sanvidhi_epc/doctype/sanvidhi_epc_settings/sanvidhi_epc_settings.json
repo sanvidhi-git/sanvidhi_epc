@@ -1,0 +1,247 @@
+{
+ "actions": [],
+ "creation": "2026-10-14 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "company",
+  "cb_1",
+  "intro",
+  "sb_2",
+  "default_retention_percent",
+  "default_tds_percent",
+  "default_advance_recovery_percent",
+  "cb_2",
+  "contractor_service_item",
+  "retention_payable_account",
+  "contractor_advance_account",
+  "sb_3",
+  "client_retention_percent",
+  "client_advance_recovery_percent",
+  "cb_3",
+  "client_billing_item",
+  "retention_receivable_account",
+  "sb_4",
+  "plot_sale_item",
+  "max_discount_percent",
+  "cb_4",
+  "demand_lead_days",
+  "email_demand_letters",
+  "late_interest_percent",
+  "sb_5",
+  "digest_enabled",
+  "digest_recipients",
+  "cb_5",
+  "enforce_dpr_before_material_request"
+ ],
+ "fields": [
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "reqd": 1,
+   "remember_last_selected_value": 1
+  },
+  {
+   "fieldname": "cb_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "intro",
+   "fieldtype": "HTML",
+   "options": "<p class='text-muted'>Defaults for contractor and client billing, plot sales and site reporting.</p>"
+  },
+  {
+   "fieldname": "sb_2",
+   "fieldtype": "Section Break",
+   "label": "Contractor Billing"
+  },
+  {
+   "fieldname": "default_retention_percent",
+   "fieldtype": "Percent",
+   "label": "Default Retention %",
+   "default": "5"
+  },
+  {
+   "fieldname": "default_tds_percent",
+   "fieldtype": "Percent",
+   "label": "Default TDS % (194C)",
+   "default": "2"
+  },
+  {
+   "fieldname": "default_advance_recovery_percent",
+   "fieldtype": "Percent",
+   "label": "Default Advance Recovery % per Bill",
+   "default": "10"
+  },
+  {
+   "fieldname": "cb_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "contractor_service_item",
+   "fieldtype": "Link",
+   "label": "Contractor Service Item",
+   "options": "Item",
+   "description": "Non-stock item used on the Purchase Invoice made from a Contractor RA Bill"
+  },
+  {
+   "fieldname": "retention_payable_account",
+   "fieldtype": "Link",
+   "label": "Retention Payable Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "contractor_advance_account",
+   "fieldtype": "Link",
+   "label": "Contractor Advance Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "sb_3",
+   "fieldtype": "Section Break",
+   "label": "Client Billing"
+  },
+  {
+   "fieldname": "client_retention_percent",
+   "fieldtype": "Percent",
+   "label": "Client Retention %",
+   "default": "5"
+  },
+  {
+   "fieldname": "client_advance_recovery_percent",
+   "fieldtype": "Percent",
+   "label": "Client Advance Recovery % per Bill"
+  },
+  {
+   "fieldname": "cb_3",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "client_billing_item",
+   "fieldtype": "Link",
+   "label": "Client Billing Item",
+   "options": "Item",
+   "description": "Non-stock item used on the Sales Invoice made from a Client RA Bill"
+  },
+  {
+   "fieldname": "retention_receivable_account",
+   "fieldtype": "Link",
+   "label": "Retention Receivable Account",
+   "options": "Account"
+  },
+  {
+   "fieldname": "sb_4",
+   "fieldtype": "Section Break",
+   "label": "Plot Sales"
+  },
+  {
+   "fieldname": "plot_sale_item",
+   "fieldtype": "Link",
+   "label": "Plot Sale Item",
+   "options": "Item"
+  },
+  {
+   "fieldname": "max_discount_percent",
+   "fieldtype": "Percent",
+   "label": "Discount Allowed without MD Approval %",
+   "default": "2"
+  },
+  {
+   "fieldname": "cb_4",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "demand_lead_days",
+   "fieldtype": "Int",
+   "label": "Raise Demand Letters (days before due)",
+   "default": "7"
+  },
+  {
+   "fieldname": "email_demand_letters",
+   "fieldtype": "Check",
+   "label": "Email Demand Letters on Submit",
+   "default": "1"
+  },
+  {
+   "fieldname": "late_interest_percent",
+   "fieldtype": "Percent",
+   "label": "Interest on Late Payment % p.a."
+  },
+  {
+   "fieldname": "sb_5",
+   "fieldtype": "Section Break",
+   "label": "Site Reporting"
+  },
+  {
+   "fieldname": "digest_enabled",
+   "fieldtype": "Check",
+   "label": "Send Daily Digest",
+   "default": "1"
+  },
+  {
+   "fieldname": "digest_recipients",
+   "fieldtype": "Small Text",
+   "label": "Daily Digest Recipients",
+   "description": "One email per line"
+  },
+  {
+   "fieldname": "cb_5",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "enforce_dpr_before_material_request",
+   "fieldtype": "Check",
+   "label": "Block Material Requests until yesterday's DPR is submitted"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-14 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Sanvidhi EPC",
+ "name": "Sanvidhi EPC Settings",
+ "owner": "Administrator",
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "icon": "settings",
+ "track_changes": 1,
+ "permissions": [
+  {
+   "role": "System Manager",
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "share": 1,
+   "write": 1
+  },
+  {
+   "role": "EPC MD",
+   "read": 1,
+   "print": 1,
+   "report": 1,
+   "export": 1,
+   "email": 1,
+   "share": 1,
+   "create": 1,
+   "write": 1
+  },
+  {
+   "role": "EPC Accounts User",
+   "read": 1,
+   "print": 1,
+   "report": 1,
+   "export": 1,
+   "email": 1,
+   "share": 1
+  }
+ ],
+ "issingle": 1
+}

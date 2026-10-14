@@ -1,0 +1,21 @@
+{
+ "app": "sanvidhi_epc",
+ "creation": "2026-10-14 12:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Desktop Icon",
+ "hidden": 0,
+ "icon": "construction",
+ "icon_type": "App",
+ "idx": 5,
+ "label": "Sanvidhi EPC",
+ "link": "/desk/sanvidhi-epc",
+ "link_type": "External",
+ "logo_url": "/assets/sanvidhi_epc/images/sanvidhi_epc_logo.svg",
+ "modified": "2026-10-14 12:00:00.000000",
+ "modified_by": "Administrator",
+ "name": "Sanvidhi EPC",
+ "owner": "Administrator",
+ "restrict_removal": 0,
+ "roles": [],
+ "standard": 1
+}

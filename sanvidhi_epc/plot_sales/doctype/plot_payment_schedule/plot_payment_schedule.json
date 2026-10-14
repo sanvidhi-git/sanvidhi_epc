@@ -1,0 +1,89 @@
+{
+ "actions": [],
+ "creation": "2026-10-14 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "milestone",
+  "due_date",
+  "percent",
+  "amount",
+  "paid_amount",
+  "status",
+  "demand_letter"
+ ],
+ "fields": [
+  {
+   "fieldname": "milestone",
+   "fieldtype": "Data",
+   "label": "Milestone",
+   "reqd": 1,
+   "in_list_view": 1,
+   "columns": 3
+  },
+  {
+   "fieldname": "due_date",
+   "fieldtype": "Date",
+   "label": "Due Date",
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "percent",
+   "fieldtype": "Percent",
+   "label": "%",
+   "in_list_view": 1,
+   "columns": 1
+  },
+  {
+   "fieldname": "amount",
+   "fieldtype": "Currency",
+   "label": "Amount",
+   "reqd": 1,
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "paid_amount",
+   "fieldtype": "Currency",
+   "label": "Paid",
+   "in_list_view": 1,
+   "columns": 1,
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Not Due\nDemanded\nPartly Paid\nPaid\nOverdue",
+   "default": "Not Due",
+   "in_list_view": 1,
+   "columns": 1,
+   "no_copy": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "demand_letter",
+   "fieldtype": "Link",
+   "label": "Demand Letter",
+   "options": "Demand Letter",
+   "no_copy": 1,
+   "read_only": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-14 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Plot Sales",
+ "name": "Plot Payment Schedule",
+ "owner": "Administrator",
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1,
+ "editable_grid": 1,
+ "permissions": []
+}

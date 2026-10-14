@@ -1,0 +1,75 @@
+{
+ "actions": [],
+ "creation": "2026-10-14 12:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "project",
+  "daily_progress_report",
+  "status",
+  "labour_count",
+  "work_items",
+  "hindrances"
+ ],
+ "fields": [
+  {
+   "fieldname": "project",
+   "fieldtype": "Link",
+   "label": "Project",
+   "options": "Project",
+   "in_list_view": 1,
+   "columns": 3
+  },
+  {
+   "fieldname": "daily_progress_report",
+   "fieldtype": "Link",
+   "label": "DPR",
+   "options": "Daily Progress Report",
+   "in_list_view": 1,
+   "columns": 2
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Reported\nMissing",
+   "in_list_view": 1,
+   "columns": 1
+  },
+  {
+   "fieldname": "labour_count",
+   "fieldtype": "Int",
+   "label": "Headcount",
+   "in_list_view": 1,
+   "columns": 1
+  },
+  {
+   "fieldname": "work_items",
+   "fieldtype": "Int",
+   "label": "Work Lines",
+   "in_list_view": 1,
+   "columns": 1
+  },
+  {
+   "fieldname": "hindrances",
+   "fieldtype": "Small Text",
+   "label": "Hindrances",
+   "in_list_view": 1,
+   "columns": 2
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-14 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "EPC Projects",
+ "name": "Daily Digest Site",
+ "owner": "Administrator",
+ "row_format": "Dynamic",
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1,
+ "editable_grid": 1,
+ "permissions": []
+}
