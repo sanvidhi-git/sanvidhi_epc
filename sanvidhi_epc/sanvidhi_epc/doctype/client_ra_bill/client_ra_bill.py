@@ -181,6 +181,7 @@ def make_sales_invoice(source_name):
 		{
 			"customer": bill.customer,
 			"company": bill.company,
+			"set_posting_time": 1,
 			"posting_date": bill.bill_date,
 			"project": bill.project,
 			"remarks": _("RA bill {0} against BOQ {1}").format(bill.bill_no, bill.boq),

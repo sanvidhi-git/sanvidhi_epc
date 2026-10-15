@@ -44,6 +44,15 @@ bench --site <test-site> execute sanvidhi_epc.tests.scenario_workflows.run
 Runs every workflow end to end with its own tagged data, including the negative cases (quantity above order,
 discount above limit, handover with dues). Use a test site: it posts invoices and journal entries.
 
+## Demo data
+
+```bash
+bench --site <demo-site> execute sanvidhi_epc.demo.demo_data.run
+```
+
+Loads the Srushti Infra & Agro demo in 13 steps (BOQ to client invoice, site stores, DPRs, plots sold and booked,
+demand letters) with a demo user per role. See [docs/DEMO_DATA.md](docs/DEMO_DATA.md).
+
 ## Layout
 
 Follows the `vsgil_sugar` structure: `sanvidhi_epc/<module>/` with `doctype/`, `number_card/`,

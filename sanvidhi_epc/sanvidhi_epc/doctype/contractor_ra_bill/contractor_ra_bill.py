@@ -202,6 +202,7 @@ def make_purchase_invoice(source_name):
 		{
 			"supplier": bill.supplier,
 			"company": bill.company,
+			"set_posting_time": 1,
 			"posting_date": bill.bill_date,
 			"bill_no": f"{bill.name} (RA {bill.bill_no})",
 			"bill_date": bill.bill_date,
