@@ -58,13 +58,15 @@ If a step fails, it is rolled back and the error is printed; fix the cause and r
 ## 2. What each step creates
 
 ### Step 1 - Masters and settings
-- Previous fiscal year (2025-26) if missing, so back-dated bookings can post.
-- UOM **Bag**; service items **EPC Contract Service**, **EPC Client Billing**, **EPC Plot Sale**; stock items
+- Previous fiscal year (2025-26) if missing, so back-dated bookings can post; holiday list **Srushti Sundays**
+  as the company default (ERPNext needs one to schedule tasks from a project template).
+- UOM **Bag**; service items **EPC Contract Service**, **EPC Client Billing**, **EPC Plot Sale**, **Machinery Hire**; stock items
   **Cement OPC 53** (₹380/bag), **TMT Steel Fe500** (₹62/kg), **Aggregate 40mm** (₹1,450/m³).
 - Warehouse **Khopoli Site Store**.
 - Accounts **Retention Payable**, **Contractor Advances**, **Retention Receivable**.
 - **Sanvidhi EPC Settings**: retention 5%, TDS 2%, advance recovery 10%, client retention 5%, max plot discount
-  2%, demand letters 7 days ahead, late interest 12% p.a., digest on to md@srushti.demo, demand-letter email off.
+  2%, demand letters 7 days ahead, late interest 12% p.a., digest on to md@srushti.demo, demand-letter email off;
+  planning: tasks from BOQ on, project template **EPC Site**, labour timesheets from DPRs on (8 h per head).
 
 ### Step 2 - Demo users (password `Demo@2026!`)
 
@@ -80,7 +82,7 @@ If a step fails, it is rolled back and the error is printed; fix the cause and r
 ### Step 3 - Parties and projects
 - Client **Sahyadri Industrial Park Pvt Ltd**; 10 plot buyers (Anil Deshmukh, Sunita Patil, ...).
 - Contractors **Shree Ganesh Earthmovers**, **Sai Road Builders**, **Konkan Masonry Works**; suppliers
-  **Om Cement Traders**, **Raigad Steel Suppliers**; broker **Pali Land Consultants**.
+  **Om Cement Traders**, **Raigad Steel Suppliers**, **Konkan Equipment Hire**; broker **Pali Land Consultants**.
 - Projects **Khopoli Internal Roads** (EPC site), **Sun Valley Farm Layout**, **Mountain Heights Layout**.
 
 ### Step 4 - BOQ (Workflow 1)
@@ -94,15 +96,25 @@ If a step fails, it is rolled back and the error is printed; fix the cause and r
 | 3.1 | Compound wall | 900 m | 2,800 | 25,20,000 | 2,250 |
 | | **Total** | | | **55,48,500** | budget 44,28,000 (20% margin) |
 
-Submitted; the budget is written to the project's estimated cost.
+Submitted. The budget is written to the project's estimated cost, and the project gets its plan in ERPNext:
+
+- the **EPC Site** template's stages - Mobilisation and site setup → **Execution** (group) → Quality checks and snag
+  list → Handover to client, with dependencies;
+- one **Task per BOQ line** under Execution (e.g. "2.1 Internal road, WBM in two layers"), weighted by its share of
+  the contract value. Task progress comes from client measurement, so the project's % complete is by value.
 
 ### Step 5 - Contractor work orders (Workflow 2)
 
-| Contractor | BOQ lines | Value | Advance |
-| --- | --- | --- | --- |
-| Shree Ganesh Earthmovers | 1.1, 1.2 | 5,33,500 | - |
-| Sai Road Builders | 2.1, 2.2 | 18,69,500 | 3,00,000, recovered 10% per bill |
-| Konkan Masonry Works | 3.1 | 20,25,000 | 1,00,000, recovered 10% per bill |
+Labour-and-machinery contracts: the company buys cement, steel and aggregate and issues them free, so PCC, drain
+and wall rates are below the budget cost rate (the material cost comes through the site store).
+
+| Contractor | BOQ lines @ rate | Value | Advance | Dates (→ task schedule) |
+| --- | --- | --- | --- | --- |
+| Shree Ganesh Earthmovers | 1.1 @ 140, 1.2 @ 1,700 | 3,12,500 | - | 62 days ago → 25 days ago |
+| Sai Road Builders | 2.1 @ 330, 2.2 @ 750 | 16,09,500 | 3,00,000, recovered 10% per bill | 50 days ago → in 40 days |
+| Konkan Masonry Works | 3.1 @ 1,650 | 14,85,000 | 1,00,000, recovered 10% per bill | 20 days ago → in 100 days |
+
+The work order dates become the BOQ tasks' start and end dates (the Gantt). **Mobilisation** is marked completed.
 
 ### Step 6 - Site stores
 - Two material requests → purchase orders (Om Cement Traders, Raigad Steel Suppliers) → purchase receipts into
@@ -110,6 +122,8 @@ Submitted; the budget is written to the project's estimated cost.
 - Three material issues booked to the project (cement, aggregate, steel). Stock left: 180 bags cement,
   30 m³ aggregate, 1,400 kg steel.
 - **One draft material request for 300 bags of cement**, raised yesterday, for the MD or PM to approve live.
+- A purchase invoice from Konkan Equipment Hire for 60 hours of roller hire (₹48,000) booked to the project:
+  a direct cost that is neither stock nor subcontract.
 
 ### Step 7 - Contractor measurement books (Workflow 3)
 Four MBs: earthwork in full (45 days ago); roads and drains in two lots (35 and 12 days ago); 30 m of compound
@@ -119,9 +133,9 @@ wall (8 days ago, measured but not yet billed).
 
 | Bill | Contractor | This bill | Retention | Advance rec. | TDS | Net payable | State |
 | --- | --- | --- | --- | --- | --- | --- | --- |
-| CRA-1 | Shree Ganesh | 5,33,500 | 26,675 | - | 10,670 | 4,96,155 | Purchase invoice + JE submitted |
-| CRA-2 | Sai Road | 9,39,000 | 46,950 | 93,900 | 18,780 | 7,79,370 | Purchase invoice + JE submitted |
-| CRA-3 | Sai Road | 9,30,500 | 46,525 | 93,050 | 18,610 | 7,72,315 | Submitted - **click Make Purchase Invoice in the demo** |
+| CRA-1 | Shree Ganesh | 3,12,500 | 15,625 | - | 6,250 | 2,90,625 | Purchase invoice + JE submitted |
+| CRA-2 | Sai Road | 8,19,000 | 40,950 | 81,900 | 16,380 | 6,79,770 | Purchase invoice + JE submitted |
+| CRA-3 | Sai Road | 7,90,500 | 39,525 | 79,050 | 15,810 | 6,56,115 | Submitted - **click Make Purchase Invoice in the demo** |
 
 ### Step 9 - Client billing and certification (Workflows 5-6)
 - Client MBs for the same work.
@@ -129,11 +143,29 @@ wall (8 days ago, measured but not yet billed).
   chainage 200-290 to be re-rolled"); sales invoice raised for the certified value.
 - **Client RA Bill 2**: ₹12,63,500, **awaiting certification**. Record the certification live, then make the invoice.
 - Billed to date ≈ ₹31.1 lakh of the ₹55.5 lakh contract.
+- Task progress follows: 1.1, 1.2, 2.1 and 2.2 **Completed**, 3.1 compound wall **Working** at 3.3%; the project
+  and BOQ show **56.1% complete** (by value).
 
 ### Step 10 - Daily progress reports and digest (Workflow 8)
 A DPR for each of the last 8 days at Khopoli (WBM layer 2 on Road C, masonry, labour by contractor, roller hours
-and diesel). Two days are rain days with work stopped. Daily Digests for yesterday and today show Khopoli reported
-and the two layouts missing.
+and diesel). Two days are rain days with work stopped. Each DPR submits a **labour Timesheet** on the project:
+contractor crews (masons, helpers, operators) are recorded as hours with no cost, because they are paid through RA
+bills; own staff (1 supervisor, 4 helpers) carry cost at the Activity Type rates - ₹3,520 a full day, ₹23,680 for
+the 8 days. Daily Digests for yesterday and today show Khopoli reported, with its progress and margin line, and
+the two layouts missing.
+
+**Progress and margin to date** on the BOQ after this step:
+
+| | ₹ |
+| --- | --- |
+| Value of work done (client-measured qty × BOQ rate) | 31,12,500 |
+| Subcontract (contractor RA bills) | 19,22,000 |
+| Material issued from the site store | 4,51,300 |
+| Own labour (timesheets) | 23,680 |
+| Other direct cost (roller hire) | 48,000 |
+| **Actual cost** | **24,44,980** |
+| **Margin on work done** | **6,67,520 (21.4%)** |
+| Budgeted cost of work done / cost variance | 24,70,500 / +25,520 (under budget) |
 
 ### Step 11 - Plot master
 Sun Valley Farm Layout: **P-01 ... P-18** (3,200-8,000 sq ft at ₹480/sq ft; P-18 is a 21,800 sq ft
@@ -163,8 +195,10 @@ Registration 40% (+240 days), with a sales order carrying the schedule.
 
 | Demo moment | Log in as | Open |
 | --- | --- | --- |
-| Workspace and icons, number cards | md@ | Sanvidhi EPC workspace |
-| Budget vs contract | md@ | BOQ-…-00001, project Khopoli Internal Roads |
+| Workspace and icons, number cards | md@ | Sanvidhi EPC workspace (now incl. Overdue Tasks, Margin on Work Done) |
+| Budget vs contract, margin to date | md@ | BOQ-…-00001: headline shows planned margin and margin on work done; "Progress and Margin to Date" section |
+| Plan and schedule | md@ or pm@ | BOQ → View → Gantt (switch to Week or Month and scroll to Aug); Tasks; Project (56.1%, template EPC Site) |
+| Site labour | pm@ | Timesheet list - one per DPR; own vs contractor labour |
 | Approve a site request | md@ or pm@ | Material Request (Draft, 300 bags cement) |
 | Pay a contractor | accounts@ | Contractor RA Bill CRA-3 → Make Purchase Invoice; print *Contractor RA Bill* |
 | Short certification | billing@ | Client RA Bill 1 → Certification; then RA bill 2 → new Certification |

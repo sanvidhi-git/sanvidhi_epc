@@ -42,6 +42,19 @@ doc_events = {
 		"on_submit": "sanvidhi_epc.utils.collections.on_sales_invoice",
 		"on_cancel": "sanvidhi_epc.utils.collections.on_sales_invoice",
 	},
+	# project cost -> the BOQ's progress and margin to date (value of work done vs actual cost)
+	"Stock Entry": {
+		"on_submit": "sanvidhi_epc.utils.planning.on_cost_document",
+		"on_cancel": "sanvidhi_epc.utils.planning.on_cost_document",
+	},
+	"Timesheet": {
+		"on_submit": "sanvidhi_epc.utils.planning.on_cost_document",
+		"on_cancel": "sanvidhi_epc.utils.planning.on_cost_document",
+	},
+	"Purchase Invoice": {
+		"on_submit": "sanvidhi_epc.utils.planning.on_cost_document",
+		"on_cancel": "sanvidhi_epc.utils.planning.on_cost_document",
+	},
 }
 
 # ---------------------------------------------------------------- scheduler
@@ -49,6 +62,8 @@ scheduler_events = {
 	"daily": [
 		# workflow 7: dues refreshed, overdue instalments flagged, demand letters drafted ahead of due date
 		"sanvidhi_epc.tasks.demand.daily",
+		# progress and margin on every active BOQ
+		"sanvidhi_epc.utils.planning.daily",
 	],
 	"cron": {
 		# workflow 8: evening digest of every open site's DPR (site time zone)

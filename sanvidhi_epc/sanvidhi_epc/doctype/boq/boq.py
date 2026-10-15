@@ -60,6 +60,11 @@ class BOQ(Document):
 	def on_submit(self):
 		# the BOQ's budgeted cost becomes the project's estimated cost
 		frappe.db.set_value("Project", self.project, "estimated_costing", self.total_budgeted_cost)
+		# a Task per BOQ line (plus the EPC template's stages on a new project), then progress and margin
+		from sanvidhi_epc.utils.planning import refresh_actuals, sync_boq_tasks
+
+		sync_boq_tasks(self)
+		refresh_actuals(self.name)
 
 	def before_cancel(self):
 		for doctype in ("Contractor Work Order", "Client RA Bill", "Measurement Book"):
@@ -95,3 +100,15 @@ def get_boq_items(boq, for_doctype=None):
 		],
 		order_by="idx",
 	)
+
+
+@frappe.whitelist()
+def refresh_progress(boq):
+	"""Recompute task progress, the project's % complete and the margin to date (the 'Refresh Progress' button)."""
+	frappe.has_permission("BOQ", "read", doc=boq, throw=True)
+	if frappe.db.get_value("BOQ", boq, "docstatus") != 1:
+		frappe.throw(_("BOQ {0} is not submitted").format(boq))
+	from sanvidhi_epc.utils.planning import refresh_actuals, update_task_progress
+
+	update_task_progress(boq)
+	refresh_actuals(boq)

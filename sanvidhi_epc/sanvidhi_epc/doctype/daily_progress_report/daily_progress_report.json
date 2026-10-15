@@ -18,6 +18,7 @@
   "sb_3",
   "labour",
   "total_labour",
+  "timesheet",
   "sb_4",
   "machinery",
   "sb_5",
@@ -132,6 +133,14 @@
    "read_only": 1
   },
   {
+   "fieldname": "timesheet",
+   "fieldtype": "Link",
+   "options": "Timesheet",
+   "label": "Labour Timesheet",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
    "fieldname": "sb_4",
    "fieldtype": "Section Break",
    "label": "Machinery"
@@ -197,7 +206,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-14 12:00:00.000000",
+ "modified": "2026-10-15 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "Sanvidhi EPC",
  "name": "Daily Progress Report",

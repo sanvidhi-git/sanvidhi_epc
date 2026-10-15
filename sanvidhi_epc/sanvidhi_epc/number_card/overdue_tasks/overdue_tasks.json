@@ -1,0 +1,23 @@
+{
+ "aggregate_function_based_on": "",
+ "color": "#6D4C9F",
+ "creation": "2026-10-15 09:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Number Card",
+ "document_type": "Task",
+ "dynamic_filters_json": "[]",
+ "filters_json": "[[\"Task\", \"status\", \"=\", \"Overdue\", false]]",
+ "function": "Count",
+ "idx": 0,
+ "is_public": 1,
+ "is_standard": 1,
+ "label": "Overdue Tasks",
+ "modified": "2026-10-15 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "Sanvidhi EPC",
+ "name": "Overdue Tasks",
+ "owner": "Administrator",
+ "show_percentage_stats": 0,
+ "stats_time_interval": "Daily",
+ "type": "Document Type"
+}

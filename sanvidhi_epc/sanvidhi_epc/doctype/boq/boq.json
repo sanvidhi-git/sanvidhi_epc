@@ -22,6 +22,22 @@
   "cb_3",
   "planned_margin",
   "planned_margin_percent",
+  "sb_progress",
+  "percent_complete",
+  "value_of_work_done",
+  "budgeted_cost_of_work_done",
+  "billed_to_date",
+  "cb_actual",
+  "actual_subcontract_cost",
+  "actual_material_cost",
+  "actual_labour_cost",
+  "actual_other_cost",
+  "actual_cost",
+  "cb_margin",
+  "margin_on_work_done",
+  "margin_on_work_done_percent",
+  "cost_variance",
+  "actuals_updated_on",
   "sb_4",
   "notes"
  ],
@@ -153,6 +169,117 @@
    "read_only": 1
   },
   {
+   "fieldname": "sb_progress",
+   "fieldtype": "Section Break",
+   "label": "Progress and Margin to Date",
+   "depends_on": "eval:doc.docstatus==1",
+   "description": "Recomputed from measurements, contractor bills, stock issues, timesheets and purchase invoices of the project"
+  },
+  {
+   "fieldname": "percent_complete",
+   "fieldtype": "Percent",
+   "label": "% Complete (by value)",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "value_of_work_done",
+   "fieldtype": "Currency",
+   "label": "Value of Work Done",
+   "read_only": 1,
+   "no_copy": 1,
+   "description": "Client-measured quantity × BOQ rate"
+  },
+  {
+   "fieldname": "budgeted_cost_of_work_done",
+   "fieldtype": "Currency",
+   "label": "Budgeted Cost of Work Done",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "billed_to_date",
+   "fieldtype": "Currency",
+   "label": "Billed to Client",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "cb_actual",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "actual_subcontract_cost",
+   "fieldtype": "Currency",
+   "label": "Subcontract (RA bills)",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "actual_material_cost",
+   "fieldtype": "Currency",
+   "label": "Material Issued",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "actual_labour_cost",
+   "fieldtype": "Currency",
+   "label": "Own Labour (timesheets)",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "actual_other_cost",
+   "fieldtype": "Currency",
+   "label": "Other Direct Cost",
+   "read_only": 1,
+   "no_copy": 1,
+   "description": "Non-stock purchase invoices booked to the project"
+  },
+  {
+   "fieldname": "actual_cost",
+   "fieldtype": "Currency",
+   "label": "Actual Cost",
+   "read_only": 1,
+   "no_copy": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "cb_margin",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "margin_on_work_done",
+   "fieldtype": "Currency",
+   "label": "Margin on Work Done",
+   "read_only": 1,
+   "no_copy": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "margin_on_work_done_percent",
+   "fieldtype": "Percent",
+   "label": "Margin %",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
+   "fieldname": "cost_variance",
+   "fieldtype": "Currency",
+   "label": "Cost Variance",
+   "read_only": 1,
+   "no_copy": 1,
+   "description": "Budgeted cost of work done − actual cost (negative = over budget)"
+  },
+  {
+   "fieldname": "actuals_updated_on",
+   "fieldtype": "Datetime",
+   "label": "Updated On",
+   "read_only": 1,
+   "no_copy": 1
+  },
+  {
    "fieldname": "sb_4",
    "fieldtype": "Section Break",
    "label": "Notes",
@@ -166,7 +293,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-14 12:00:00.000000",
+ "modified": "2026-10-15 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "Sanvidhi EPC",
  "name": "BOQ",

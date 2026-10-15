@@ -2,7 +2,7 @@
 
 import frappe
 from frappe import _
-from frappe.utils import cint, escape_html, getdate, now_datetime, today
+from frappe.utils import cint, escape_html, flt, fmt_money, getdate, now_datetime, today
 
 from sanvidhi_epc.utils.settings import get_settings
 
@@ -14,6 +14,30 @@ def scheduled():
 	digest = build_digest(today())
 	if digest.recipients:
 		send_digest(digest.name)
+
+
+def _progress_line(project):
+	"""% complete and margin on work done from the project's active BOQ (empty for layouts with no BOQ)."""
+	boq = frappe.db.get_value(
+		"BOQ",
+		{"project": project, "docstatus": 1, "status": "Active"},
+		["percent_complete", "value_of_work_done", "actual_cost", "margin_on_work_done", "margin_on_work_done_percent",
+		 "cost_variance"],
+		as_dict=True,
+	)
+	if not boq:
+		return ""
+	colour = "#027a48" if flt(boq.margin_on_work_done) >= 0 else "#b42318"
+	return (
+		"<p>{}: <b>{:.1f}%</b> &nbsp; {}: {} &nbsp; {}: {} &nbsp; "
+		"{}: <b style='color:{}'>{} ({:.1f}%)</b> &nbsp; {}: {}</p>"
+	).format(
+		_("Complete"), flt(boq.percent_complete),
+		_("Work done"), fmt_money(boq.value_of_work_done, 0),
+		_("Cost"), fmt_money(boq.actual_cost, 0),
+		_("Margin"), colour, fmt_money(boq.margin_on_work_done, 0), flt(boq.margin_on_work_done_percent),
+		_("vs budget"), fmt_money(boq.cost_variance, 0),
+	)
 
 
 def build_digest(digest_date):
@@ -36,6 +60,7 @@ def build_digest(digest_date):
 			blocks.append(
 				f"<h4>{escape_html(project.project_name or project.name)}</h4>"
 				f"<p style='color:#b54708'>{_('No progress report submitted')}</p>"
+				+ _progress_line(project.name)
 			)
 			continue
 		dpr = frappe.get_doc("Daily Progress Report", dpr_name)
@@ -55,8 +80,9 @@ def build_digest(digest_date):
 			qty = " - {:g} {}".format(w.qty_done, escape_html(w.uom or "")) if w.qty_done else ""
 			work += "<li>{}{}</li>".format(escape_html(w.description or ""), qty)
 		weather = " · {}: {}".format(_("Weather"), escape_html(dpr.weather)) if dpr.weather else ""
-		block = "<h4>{}</h4><p>{}: <b>{}</b>{}</p><ul>{}</ul>".format(
-			escape_html(project.project_name or project.name), _("Headcount"), cint(dpr.total_labour), weather, work
+		block = "<h4>{}</h4>{}<p>{}: <b>{}</b>{}</p><ul>{}</ul>".format(
+			escape_html(project.project_name or project.name), _progress_line(project.name),
+			_("Headcount"), cint(dpr.total_labour), weather, work
 		)
 		if dpr.hindrances:
 			block += "<p><b>{}:</b> {}</p>".format(_("Hindrances"), escape_html(dpr.hindrances))

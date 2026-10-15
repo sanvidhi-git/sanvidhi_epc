@@ -32,7 +32,13 @@
   "digest_enabled",
   "digest_recipients",
   "cb_5",
-  "enforce_dpr_before_material_request"
+  "enforce_dpr_before_material_request",
+  "sb_6",
+  "create_tasks_from_boq",
+  "epc_project_template",
+  "cb_6",
+  "create_labour_timesheets",
+  "default_labour_hours"
  ],
  "fields": [
   {
@@ -194,11 +200,47 @@
    "fieldname": "enforce_dpr_before_material_request",
    "fieldtype": "Check",
    "label": "Block Material Requests until yesterday's DPR is submitted"
+  },
+  {
+   "fieldname": "sb_6",
+   "fieldtype": "Section Break",
+   "label": "Planning"
+  },
+  {
+   "fieldname": "create_tasks_from_boq",
+   "fieldtype": "Check",
+   "label": "Create a Task for each BOQ line",
+   "default": "1",
+   "description": "On BOQ submit. Progress comes from client measurement; the project's % complete is weighted by BOQ value."
+  },
+  {
+   "fieldname": "epc_project_template",
+   "fieldtype": "Link",
+   "options": "Project Template",
+   "label": "Project Template for EPC Sites",
+   "description": "Stages created when a project's first BOQ is submitted (if it has no tasks yet); BOQ tasks go under its 'Execution' group task"
+  },
+  {
+   "fieldname": "cb_6",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "create_labour_timesheets",
+   "fieldtype": "Check",
+   "label": "Create Timesheets from DPR labour",
+   "default": "1",
+   "description": "Hours for all labour. Cost only for own (departmental) labour: contractor labour is paid through RA bills."
+  },
+  {
+   "fieldname": "default_labour_hours",
+   "fieldtype": "Float",
+   "label": "Default Hours per Labour",
+   "default": "8"
   }
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-14 12:00:00.000000",
+ "modified": "2026-10-15 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "Sanvidhi EPC",
  "name": "Sanvidhi EPC Settings",

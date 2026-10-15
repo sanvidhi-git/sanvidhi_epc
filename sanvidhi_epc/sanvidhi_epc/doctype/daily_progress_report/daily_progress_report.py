@@ -29,3 +29,14 @@ class DailyProgressReport(Document):
 		self.total_labour = sum(cint(r.count) for r in self.labour)
 		if not self.work_done and not self.hindrances:
 			frappe.throw(_("Record the work done, or the hindrance that stopped work"))
+
+	def on_submit(self):
+		# the day's crews become a Timesheet on the project (hours; cost for own labour only)
+		from sanvidhi_epc.utils.planning import make_labour_timesheet
+
+		make_labour_timesheet(self)
+
+	def on_cancel(self):
+		from sanvidhi_epc.utils.planning import cancel_labour_timesheet
+
+		cancel_labour_timesheet(self)

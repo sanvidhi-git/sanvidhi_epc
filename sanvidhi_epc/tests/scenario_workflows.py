@@ -114,6 +114,20 @@ def run():
 
 	BOQ = check("W1 BOQ submitted; budget written to project", make_boq)
 
+	def boq_tasks():
+		tasks = frappe.get_all("Task", filters={"project": M["project"], "boq": BOQ},
+			fields=["boq_ref", "task_weight", "parent_task", "status"], order_by="boq_ref")
+		assert_eq([t.boq_ref for t in tasks], ["1.1", "1.2", "2.1"], "a task per BOQ line")
+		total = 1200 * 180 + 85 * 5200 + 3400 * 420
+		assert_eq(round(tasks[2].task_weight, 2), round(3400 * 420 / total * 100, 2), "weight = share of BOQ value")
+		assert_eq(frappe.db.get_value("Project", M["project"], "percent_complete_method"), "Manual", "% complete from BOQ")
+		group = frappe.db.get_value("Task", {"project": M["project"], "subject": "Execution", "is_group": 1})
+		if group:  # stages from the EPC Site template (needs a default holiday list on the company)
+			assert_eq(tasks[0].parent_task, group, "BOQ tasks under Execution")
+		return f"{len(tasks)} tasks" + (", EPC Site stages" if group else "")
+
+	check("PM BOQ submit creates a Task per BOQ line, weighted by value", boq_tasks)
+
 	def second_boq():
 		frappe.get_doc({"doctype": "BOQ", "boq_title": "dup", "company": COMPANY, "project": M["project"],
 			"items": [{"boq_ref": "1", "description": "x", "uom": "Nos", "qty": 1, "rate": 1}]}).insert().submit()
@@ -125,6 +139,7 @@ def run():
 		wo = frappe.get_doc({
 			"doctype": "Contractor Work Order", "company": COMPANY, "project": M["project"], "boq": BOQ,
 			"supplier": M["supplier"], "mobilisation_advance": 50000, "advance_recovery_percent": 10,
+			"start_date": add_days(today(), 3), "end_date": add_days(today(), 60),
 			"items": [
 				{"boq_ref": "1.1", "qty": 1200, "rate": 140},
 				{"boq_ref": "2.1", "qty": 1000, "rate": 330},
@@ -138,6 +153,9 @@ def run():
 		return wo.name
 
 	WO = check("W2 Contractor work order from BOQ; BOQ shows awarded qty", make_wo)
+	check("PM Work order dates onto the BOQ task", lambda: assert_eq(
+		str(frappe.db.get_value("Task", {"project": M["project"], "boq_ref": "2.1"}, "exp_end_date"))[:10],
+		str(add_days(today(), 60)), "task end = work order end"))
 
 	# ------------------------------------------------------------ W3 measurement
 	def mb(qty, ref="2.1", mb_type="Contractor", **kw):
@@ -209,6 +227,17 @@ def run():
 		return bill.name
 
 	CB = check("W5 Client RA bill from client measurement", client_bill)
+
+	def progress():
+		task = frappe.db.get_value("Task", {"project": M["project"], "boq_ref": "2.1"}, ["progress", "status"], as_dict=True)
+		assert_eq(round(task.progress, 2), round(800 / 3400 * 100, 2), "task progress = client measured / BOQ qty")
+		assert_eq(task.status, "Working", "task status")
+		total = 1200 * 180 + 85 * 5200 + 3400 * 420
+		assert_eq(round(frappe.db.get_value("Project", M["project"], "percent_complete"), 2),
+			round(800 * 420 / total * 100, 2), "project % complete by value")
+		assert_eq(frappe.db.get_value("BOQ", BOQ, "value_of_work_done"), 800 * 420, "value of work done")
+
+	check("PM Client measurement drives task progress and project % complete", progress)
 	expect_error("W5 Client measurement beyond BOQ quantity is refused", lambda: mb(3000, ref="2.1", mb_type="Client"), "exceed")
 
 	def cert(reason):
@@ -240,6 +269,44 @@ def run():
 
 	check("W8 DPR submitted; headcount totalled", lambda: assert_eq(dpr().total_labour, 14, "headcount"))
 	expect_error("W8 Second DPR for the same day is refused", lambda: dpr(), "already has a progress report")
+
+	def labour_timesheet():
+		name = frappe.db.get_value("Daily Progress Report", {"project": M["project"], "report_date": today(), "docstatus": 1})
+		ts = frappe.db.get_value("Daily Progress Report", name, "timesheet")
+		assert ts, "timesheet made"
+		# own labour only: 12 helpers and 2 operators, 8 h, at the activity type rates
+		rate = lambda c: frappe.db.get_value("Activity Type", f"Site Labour - {c}", "costing_rate")
+		cost = 12 * 8 * rate("Helper") + 2 * 8 * rate("Operator")
+		assert_eq(frappe.db.get_value("Timesheet", ts, "total_costing_amount"), cost, "own labour cost")
+		return ts
+
+	check("PM DPR labour becomes a submitted Timesheet; own labour costed", labour_timesheet)
+
+	def contractor_labour_and_cancel():
+		d = frappe.get_doc({"doctype": "Daily Progress Report", "company": COMPANY, "project": M["project"],
+			"report_date": add_days(today(), -1), "hindrances": "Rain",
+			"labour": [{"category": "Mason", "supplier": M["supplier"], "count": 5}]}).insert()
+		d.submit()
+		ts = frappe.db.get_value("Daily Progress Report", d.name, "timesheet")
+		assert_eq(frappe.db.get_value("Timesheet", ts, "total_costing_amount"), 0, "contractor labour carries no cost")
+		d.cancel()
+		assert_eq(frappe.db.get_value("Timesheet", ts, "docstatus"), 2, "timesheet cancelled with the DPR")
+
+	check("PM Contractor labour: hours only; cancelling the DPR cancels its Timesheet", contractor_labour_and_cancel)
+
+	def margin():
+		boq = frappe.db.get_value("BOQ", BOQ, ["value_of_work_done", "actual_subcontract_cost", "actual_labour_cost",
+			"actual_material_cost", "actual_other_cost", "actual_cost", "margin_on_work_done", "budgeted_cost_of_work_done",
+			"cost_variance"], as_dict=True)
+		assert_eq(boq.actual_subcontract_cost, 198000, "subcontract = contractor RA bills")
+		assert_eq(boq.actual_cost, boq.actual_subcontract_cost + boq.actual_material_cost + boq.actual_labour_cost
+			+ boq.actual_other_cost, "actual cost")
+		assert_eq(boq.margin_on_work_done, boq.value_of_work_done - boq.actual_cost, "margin on work done")
+		assert_eq(boq.budgeted_cost_of_work_done, 800 * 330, "budgeted cost of work done")
+		assert_eq(boq.cost_variance, 800 * 330 - boq.actual_cost, "cost variance")
+		return f"margin {boq.margin_on_work_done:,.0f} on {boq.value_of_work_done:,.0f}"
+
+	check("PM BOQ margin: value of work done vs subcontract + material + labour + other", margin)
 
 	def digest():
 		from sanvidhi_epc.tasks.digest import build_digest

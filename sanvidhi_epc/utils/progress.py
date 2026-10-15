@@ -25,18 +25,28 @@ def update_boq_contracted(boq):
 	qty = _sum_by("Contractor Work Order Item", "Contractor Work Order", "boq_item", "qty", {"boq": boq})
 	for row in frappe.get_all("BOQ Item", filters={"parent": boq, "parenttype": "BOQ"}, pluck="name"):
 		frappe.db.set_value("BOQ Item", row, "contracted_qty", qty.get(row, 0), update_modified=False)
+	from sanvidhi_epc.utils.planning import update_task_schedule
+
+	update_task_schedule(boq)  # work order dates onto the BOQ tasks
 
 
 def update_boq_executed(boq):
 	qty = _sum_by("Measurement Book Item", "Measurement Book", "boq_item", "qty", {"boq": boq, "mb_type": "Client"})
 	for row in frappe.get_all("BOQ Item", filters={"parent": boq, "parenttype": "BOQ"}, pluck="name"):
 		frappe.db.set_value("BOQ Item", row, "executed_qty", qty.get(row, 0), update_modified=False)
+	from sanvidhi_epc.utils.planning import refresh_actuals, update_task_progress
+
+	update_task_progress(boq)  # task progress and the project's % complete
+	refresh_actuals(boq)
 
 
 def update_boq_billed(boq):
 	qty = _sum_by("Client RA Bill Item", "Client RA Bill", "boq_item", "current_qty", {"boq": boq})
 	for row in frappe.get_all("BOQ Item", filters={"parent": boq, "parenttype": "BOQ"}, pluck="name"):
 		frappe.db.set_value("BOQ Item", row, "billed_qty", qty.get(row, 0), update_modified=False)
+	from sanvidhi_epc.utils.planning import refresh_actuals
+
+	refresh_actuals(boq)
 
 
 def update_work_order_measured(work_order):
@@ -79,6 +89,9 @@ def update_work_order_billed(work_order):
 	if wo.status in ("Open", "Completed"):
 		values["status"] = "Completed" if billed >= flt(wo.total_amount) - 0.5 else "Open"
 	frappe.db.set_value("Contractor Work Order", work_order, values, update_modified=False)
+	from sanvidhi_epc.utils.planning import refresh_project_actuals
+
+	refresh_project_actuals(frappe.db.get_value("Contractor Work Order", work_order, "project"))
 
 
 def mark_measurements(measurement_books, ra_bill=None):

@@ -40,6 +40,7 @@ SUPPLIERS = {
 	"cement": "Om Cement Traders",
 	"steel": "Raigad Steel Suppliers",
 	"broker": "Pali Land Consultants",
+	"hire": "Konkan Equipment Hire",
 }
 
 # BOQ ref, description, uom, qty, sell rate, cost head, budget cost rate  (same lines as the pitch deck)
@@ -119,11 +120,26 @@ def step_1_settings_and_masters():
 			fy.insert(ignore_permissions=True)
 		day = add_days(day, 90)
 		day = getdate(day)
+	# a default holiday list (Sundays) - ERPNext needs one to schedule tasks from a project template
+	if not frappe.db.get_value("Company", company, "default_holiday_list"):
+		_start, year_end = frappe.db.get_value(
+			"Fiscal Year", {"year_start_date": ["<=", today()], "year_end_date": [">=", today()]},
+			["year_start_date", "year_end_date"],
+		)
+		start = getdate(_days(330))
+		end = add_days(year_end, 365)
+		holidays = frappe.new_doc("Holiday List")
+		holidays.update({"holiday_list_name": "Srushti Sundays", "from_date": start, "to_date": end,
+			"weekly_off": "Sunday"})
+		holidays.get_weekly_off_dates()
+		holidays.insert(ignore_permissions=True)
+		frappe.db.set_value("Company", company, "default_holiday_list", holidays.name)
 	_get_or_insert("UOM", {"uom_name": "Bag"}, {"must_be_whole_number": 1})
 	for code, uom, group, stock, rate in [
 		("EPC Contract Service", "Nos", "Services", 0, 0),
 		("EPC Client Billing", "Nos", "Services", 0, 0),
 		("EPC Plot Sale", "Nos", "Services", 0, 0),
+		("Machinery Hire", "Hour", "Services", 0, 0),
 		("Cement OPC 53", "Bag", "Raw Material", 1, 380),
 		("TMT Steel Fe500", "Kg", "Raw Material", 1, 62),
 		("Aggregate 40mm", "Cubic Meter", "Raw Material", 1, 1450),
@@ -172,6 +188,10 @@ def step_1_settings_and_masters():
 			"digest_enabled": 1,
 			"digest_recipients": "md@srushti.demo",
 			"enforce_dpr_before_material_request": 0,
+			"create_tasks_from_boq": 1,
+			"epc_project_template": "EPC Site",
+			"create_labour_timesheets": 1,
+			"default_labour_hours": 8,
 		}
 	)
 	settings.save(ignore_permissions=True)
@@ -228,7 +248,7 @@ def step_3_parties_and_projects():
 
 # ---------------------------------------------------------------------------------------------- step 4
 def step_4_boq():
-	"""W1: BOQ for the roads contract (₹55,48,500), submitted; budget written to the project."""
+	"""W1: BOQ for the roads contract (₹55,48,500); on submit the EPC Site stages and a Task per BOQ line."""
 	project = _project(ROADS)
 	if frappe.db.get_value("BOQ", {"project": project, "docstatus": 1}):
 		return
@@ -259,13 +279,15 @@ def _supplier(key):
 
 # ---------------------------------------------------------------------------------------------- step 5
 def step_5_work_orders():
-	"""W2: three contractor work orders awarded from the BOQ."""
+	"""W2: three work orders (labour and machinery; cement, steel, aggregate issued free); mobilisation done."""
+	# PCC, drains and wall are awarded below the budget cost rate: the material is bought and issued by the company
+	# contractor, lines (ref, qty, rate), advance, recovery %, start / end (days from today) -> the Gantt
 	plan = [
-		("earthwork", [("1.1", 1200, 140), ("1.2", 85, 4300)], 0, 0),
-		("roads", [("2.1", 3400, 330), ("2.2", 650, 1150)], 300000, 10),
-		("wall", [("3.1", 900, 2250)], 100000, 10),
+		("earthwork", [("1.1", 1200, 140), ("1.2", 85, 1700)], 0, 0, -62, -25),
+		("roads", [("2.1", 3400, 330), ("2.2", 650, 750)], 300000, 10, -50, 40),
+		("wall", [("3.1", 900, 1650)], 100000, 10, -20, 100),
 	]
-	for key, lines, advance, recovery in plan:
+	for key, lines, advance, recovery, start, end in plan:
 		if frappe.db.exists("Contractor Work Order", {"supplier": _supplier(key), "docstatus": 1}):
 			continue
 		_submit(
@@ -277,14 +299,24 @@ def step_5_work_orders():
 					"boq": _boq(),
 					"supplier": _supplier(key),
 					"order_date": _days(65),
-					"start_date": _days(62),
-					"end_date": add_days(today(), 90),
+					"start_date": add_days(today(), start),
+					"end_date": add_days(today(), end),
 					"mobilisation_advance": advance,
 					"advance_recovery_percent": recovery,
 					"items": [{"boq_ref": r, "qty": q, "rate": rate} for r, q, rate in lines],
 				}
 			)
 		)
+
+
+	mobilisation = frappe.db.get_value(
+		"Task", {"project": _project(ROADS), "subject": "Mobilisation and site setup", "status": ["!=", "Completed"]}
+	)
+	if mobilisation:
+		task = frappe.get_doc("Task", mobilisation)
+		task.update({"status": "Completed", "progress": 100, "act_start_date": _days(70), "act_end_date": _days(58),
+			"completed_on": _days(58)})
+		task.save(ignore_permissions=True)
 
 
 def _work_order(key):
@@ -360,6 +392,24 @@ def step_6_site_stores():
 
 	# one open request for the demo: the MD approves it live
 	material_request([("Cement OPC 53", 300)], 1, submit=False)
+
+	# a direct cost that is neither stock nor subcontract: roller hire, booked to the project
+	pi = frappe.get_doc(
+		{
+			"doctype": "Purchase Invoice",
+			"company": company,
+			"supplier": _supplier("hire"),
+			"set_posting_time": 1,
+			"posting_date": _days(10),
+			"bill_no": "KEH/26/118",
+			"bill_date": _days(10),
+			"project": project,
+			"items": [{"item_code": "Machinery Hire", "qty": 60, "rate": 800, "project": project,
+				"description": "Vibratory roller 10T with operator, 60 hours"}],
+		}
+	)
+	pi.set_missing_values()
+	_submit(pi)
 
 
 # ---------------------------------------------------------------------------------------------- step 7
@@ -471,7 +521,7 @@ def step_9_client_billing():
 
 # ---------------------------------------------------------------------------------------------- step 10
 def step_10_daily_reports():
-	"""W8: a DPR for each of the last 8 days at Khopoli (two rain days); digests for yesterday and today."""
+	"""W8: 8 days of DPRs at Khopoli (two rain days), each with its labour Timesheet; digests for yesterday and today."""
 	project = _project(ROADS)
 	for n in range(7, -1, -1):
 		day = _days(n)
@@ -495,6 +545,9 @@ def step_10_daily_reports():
 						{"category": "Mason", "supplier": _supplier("wall"), "count": 6},
 						{"category": "Helper", "supplier": _supplier("roads"), "count": 18 if not rain else 6},
 						{"category": "Operator", "supplier": _supplier("roads"), "count": 3},
+						# own (departmental) staff: these carry cost on the labour timesheet
+						{"category": "Supervisor", "count": 1},
+						{"category": "Helper", "count": 0 if rain else 4},
 					],
 					"machinery": [{"equipment": "Vibratory roller 10T", "hours": 0 if rain else 7.5, "fuel_litres": 0 if rain else 60}],
 					"hindrances": "Rain from 11 am; rolling stopped" if rain else "",

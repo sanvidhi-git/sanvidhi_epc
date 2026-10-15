@@ -1,7 +1,7 @@
 {
  "app": "sanvidhi_epc",
  "charts": [],
- "content": "[{\"id\": \"cu001\", \"type\": \"custom_block\", \"data\": {\"custom_block_name\": \"Sanvidhi EPC Apps\", \"col\": 12}}, {\"id\": \"sp002\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"he003\", \"type\": \"header\", \"data\": {\"text\": \"<span class='h4'><b>Today at a Glance</b></span>\", \"col\": 12}}, {\"id\": \"nu004\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Open Work Orders\", \"col\": 4}}, {\"id\": \"nu005\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"RA Bills to Invoice\", \"col\": 4}}, {\"id\": \"nu006\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Client Bills Awaiting Certification\", \"col\": 4}}, {\"id\": \"nu007\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Plots Available\", \"col\": 4}}, {\"id\": \"nu008\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Plot Dues Outstanding\", \"col\": 4}}, {\"id\": \"nu009\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"DPRs Submitted Today\", \"col\": 4}}, {\"id\": \"sp010\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"he011\", \"type\": \"header\", \"data\": {\"text\": \"<span class='h4'><b>Workflows</b></span>\", \"col\": 12}}, {\"id\": \"ca012\", \"type\": \"card\", \"data\": {\"card_name\": \"Estimate & Award\", \"col\": 4}}, {\"id\": \"ca013\", \"type\": \"card\", \"data\": {\"card_name\": \"Measure & Bill\", \"col\": 4}}, {\"id\": \"ca014\", \"type\": \"card\", \"data\": {\"card_name\": \"Site Reporting\", \"col\": 4}}, {\"id\": \"ca015\", \"type\": \"card\", \"data\": {\"card_name\": \"Plot Sales\", \"col\": 4}}, {\"id\": \"ca016\", \"type\": \"card\", \"data\": {\"card_name\": \"Accounts\", \"col\": 4}}, {\"id\": \"ca017\", \"type\": \"card\", \"data\": {\"card_name\": \"Setup\", \"col\": 4}}]",
+ "content": "[{\"id\": \"cu001\", \"type\": \"custom_block\", \"data\": {\"custom_block_name\": \"Sanvidhi EPC Apps\", \"col\": 12}}, {\"id\": \"sp002\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"he003\", \"type\": \"header\", \"data\": {\"text\": \"<span class='h4'><b>Today at a Glance</b></span>\", \"col\": 12}}, {\"id\": \"nu004\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Open Work Orders\", \"col\": 3}}, {\"id\": \"nu005\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"RA Bills to Invoice\", \"col\": 3}}, {\"id\": \"nu006\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Client Bills Awaiting Certification\", \"col\": 3}}, {\"id\": \"nu007\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Plots Available\", \"col\": 3}}, {\"id\": \"nu008\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Plot Dues Outstanding\", \"col\": 3}}, {\"id\": \"nu009\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"DPRs Submitted Today\", \"col\": 3}}, {\"id\": \"nu018\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Overdue Tasks\", \"col\": 3}}, {\"id\": \"nu019\", \"type\": \"number_card\", \"data\": {\"number_card_name\": \"Margin on Work Done\", \"col\": 3}}, {\"id\": \"sp010\", \"type\": \"spacer\", \"data\": {\"col\": 12}}, {\"id\": \"he011\", \"type\": \"header\", \"data\": {\"text\": \"<span class='h4'><b>Workflows</b></span>\", \"col\": 12}}, {\"id\": \"ca012\", \"type\": \"card\", \"data\": {\"card_name\": \"Estimate & Award\", \"col\": 4}}, {\"id\": \"ca013\", \"type\": \"card\", \"data\": {\"card_name\": \"Measure & Bill\", \"col\": 4}}, {\"id\": \"ca014\", \"type\": \"card\", \"data\": {\"card_name\": \"Site Reporting\", \"col\": 4}}, {\"id\": \"ca015\", \"type\": \"card\", \"data\": {\"card_name\": \"Plot Sales\", \"col\": 4}}, {\"id\": \"ca016\", \"type\": \"card\", \"data\": {\"card_name\": \"Accounts\", \"col\": 4}}, {\"id\": \"ca020\", \"type\": \"card\", \"data\": {\"card_name\": \"Plan & Track\", \"col\": 4}}, {\"id\": \"ca017\", \"type\": \"card\", \"data\": {\"card_name\": \"Setup\", \"col\": 4}}]",
  "creation": "2026-10-14 12:00:00.000000",
  "custom_blocks": [
   {
@@ -204,21 +204,9 @@
    "icon": "banknote",
    "is_query_report": 0,
    "label": "Accounts",
-   "link_count": 4,
+   "link_count": 3,
    "onboard": 0,
    "type": "Card Break"
-  },
-  {
-   "dependencies": "",
-   "hidden": 0,
-   "icon": "construction",
-   "is_query_report": 0,
-   "label": "Project",
-   "link_count": 0,
-   "link_to": "Project",
-   "link_type": "DocType",
-   "onboard": 0,
-   "type": "Link"
   },
   {
    "dependencies": "",
@@ -258,6 +246,75 @@
   },
   {
    "hidden": 0,
+   "icon": "folder-kanban",
+   "is_query_report": 0,
+   "label": "Plan & Track",
+   "link_count": 5,
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "icon": "folder-kanban",
+   "is_query_report": 0,
+   "label": "Project",
+   "link_count": 0,
+   "link_to": "Project",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "icon": "list-checks",
+   "is_query_report": 0,
+   "label": "Task",
+   "link_count": 0,
+   "link_to": "Task",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "icon": "timer",
+   "is_query_report": 0,
+   "label": "Timesheet",
+   "link_count": 0,
+   "link_to": "Timesheet",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "icon": "layout-template",
+   "is_query_report": 0,
+   "label": "Project Template",
+   "link_count": 0,
+   "link_to": "Project Template",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "dependencies": "",
+   "hidden": 0,
+   "icon": "hammer",
+   "is_query_report": 0,
+   "label": "Activity Type",
+   "link_count": 0,
+   "link_to": "Activity Type",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
    "icon": "settings",
    "is_query_report": 0,
    "label": "Setup",
@@ -278,7 +335,7 @@
    "type": "Link"
   }
  ],
- "modified": "2026-10-14 13:00:00.000000",
+ "modified": "2026-10-15 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "Sanvidhi EPC",
  "name": "Sanvidhi EPC",
@@ -306,6 +363,14 @@
   {
    "label": "DPRs Submitted Today",
    "number_card_name": "DPRs Submitted Today"
+  },
+  {
+   "label": "Overdue Tasks",
+   "number_card_name": "Overdue Tasks"
+  },
+  {
+   "label": "Margin on Work Done",
+   "number_card_name": "Margin on Work Done"
   }
  ],
  "owner": "Administrator",

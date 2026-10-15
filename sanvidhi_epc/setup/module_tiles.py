@@ -42,6 +42,16 @@ GROUPS = [
 			("Plot Handover", "plot_handover", "Possession"),
 		],
 	),
+	(
+		"Plan & Track",
+		[
+			("Project", "project", "% complete, cost, margin"),
+			("Task", "task", "BOQ lines as tasks"),
+			("Gantt", "gantt", "Schedule", "/desk/task/view/gantt"),
+			("Timesheet", "timesheet", "Site labour hours"),
+			("Project Template", "project_template", "Standard stages"),
+		],
+	),
 	("Setup", [("Sanvidhi EPC Settings", "sanvidhi_epc_settings", "Defaults")]),
 ]
 
@@ -52,9 +62,9 @@ def _icon(name):
 
 
 def tiles_html():
-	def tile(label, icon, sub):
+	def tile(label, icon, sub, route=None):
 		img = f'<img src="{_icon(icon)}" alt="">' if _icon(icon) else '<span class="se-ph"></span>'
-		route = "/desk/" + label.lower().replace(" ", "-")
+		route = route or "/desk/" + label.lower().replace(" ", "-")
 		return (
 			f'<a class="se-tile" href="{route}">{img}<span class="se-label">{label}</span>'
 			f'<span class="se-sub">{sub}</span></a>'

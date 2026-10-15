@@ -28,6 +28,10 @@ def setup():
 			frappe.get_doc({"doctype": "Role", "role_name": role, "desk_access": 1}).insert(ignore_permissions=True)
 	# the workspace's icon grid of apps (a Custom HTML Block is not a fixture, so it is rebuilt here)
 	sync_block()
+	# project management: Task / Timesheet fields, site labour activity types, "EPC Site" project template
+	from sanvidhi_epc.utils.planning import setup_masters
+
+	setup_masters()
 	settings = frappe.get_single("Sanvidhi EPC Settings")
 	if not settings.company:
 		company = frappe.defaults.get_global_default("company") or frappe.db.get_value("Company", {}, "name")

@@ -18,12 +18,18 @@ daily site reporting, and plot sales from booking to possession. Everything live
 | 9 | Collections | **Demand Letter** (`mail`): instalment + previous dues + interest on late payment; drafted daily ahead of each due date, emailed on submit; print *Demand Letter*. Receipts against the sales order refresh the booking's dues automatically |
 | 10 | Possession | **Plot Handover** (`key-round`): no-dues check, document checklist, registration details; plot becomes Sold; print *Possession Letter* |
 | 11 | Site reporting | **Daily Progress Report** (`notebook-pen`): work done, labour, machinery, hindrances, photos; one per project per day; optional rule blocking material requests until yesterday's DPR is in |
-| 12 | Evening summary | **Daily Digest** (`newspaper`): every open project's DPR (or "missing") emailed at 7 pm |
+| 12 | Evening summary | **Daily Digest** (`newspaper`): every open project's DPR (or "missing"), % complete and margin, emailed at 7 pm |
+| 13 | Plan and track (standard ERPNext) | **Project / Task / Gantt / Timesheet**: BOQ submit applies the *EPC Site* project template (stages) and makes a Task per BOQ line; work order dates schedule the tasks; client measurement sets task progress and the project's % complete (by value); each DPR submits a labour Timesheet (hours for all crews, cost for own labour only); the BOQ shows **value of work done vs actual cost** (subcontract + material issued + own labour + other direct cost) and the margin on work done |
 
 Settings: **Sanvidhi EPC Settings** (`settings`) - default retention / TDS / advance recovery, service and
 billing items, retention and advance accounts, plot discount limit, demand-letter lead days, digest recipients.
 
 Roles: EPC MD, EPC Project Manager, EPC Site Engineer, EPC Billing Engineer, EPC Accounts User, Plot Sales User.
+The EPC roles also get access to Project, Task, Timesheet, Project Template and Activity Type, so the team does not
+need ERPNext's "Projects User" role as well.
+
+Planning needs a **default holiday list on the company** to create the template's stages (ERPNext schedules template
+tasks around holidays); without one, only the BOQ line tasks are created and a message says why.
 
 ## Install
 

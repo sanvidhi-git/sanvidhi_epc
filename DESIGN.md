@@ -67,3 +67,35 @@ invoices made from it), and spreads them over the instalments first-due-first-pa
 | Discount above the limit needs EPC MD | `PlotBooking.before_submit` |
 | Possession only with nil dues and mandatory documents | `PlotHandover.before_submit` |
 | One DPR per project per day; optional block on material requests | `DailyProgressReport.validate`, `utils/site.py` |
+
+## 5. Project management: standard ERPNext, driven by the EPC documents
+
+`utils/planning.py` keeps ERPNext's Project, Task, Timesheet and Gantt in step with the EPC documents, rather
+than replacing them.
+
+| Event | Effect |
+| --- | --- |
+| BOQ submit | Project template from Settings (*EPC Site*: Mobilisation → Execution → Quality checks → Handover, with dependencies) if the project has no tasks; one Task per BOQ line under *Execution* (`Task.boq`, `Task.boq_ref`), weight = share of BOQ value; a BOQ revision updates the same tasks by BOQ ref and cancels dropped lines |
+| Work order submit / cancel | Task start / end = earliest start and latest end of the work orders on that line (clamped to the project's dates); the Execution group is widened to span its tasks |
+| Client measurement submit / cancel | Task progress = client-measured qty ÷ BOQ qty; status Open / Working / Completed; actual start / end from the measurement dates; Execution group progress = value-weighted average |
+| DPR submit / cancel | A submitted Timesheet on the project (`Timesheet.daily_progress_report`): one row per crew, one shift, costed at the Activity Type rate × headcount for own labour, *Contractor Labour* (₹0) for supplier crews; cancelled with the DPR |
+| Stock Entry, Timesheet, Purchase Invoice submit / cancel; contractor and client RA bills; daily job | BOQ "Progress and Margin to Date" recomputed |
+
+**% complete.** The project's method is set to *Manual* and its value written from the BOQ (value of client-measured
+work ÷ contract value). ERPNext's *Task Weight* method rounds each task's share to two decimals (56.5% against the
+true 56.1% in the demo), so the BOQ figure is used for both.
+
+**Margin.** ERPNext's project gross margin is billed amount minus all costs, which swings with billing timing. The BOQ
+instead compares the **value of work done** (client-measured quantity × BOQ rate) with **actual cost**:
+
+| Cost | Source |
+| --- | --- |
+| Subcontract | `current_value` of submitted Contractor RA Bills (accrued when certified, not when invoiced) |
+| Material | Stock issues to the project (rows with a source and no target warehouse) |
+| Own labour | Timesheet costing on the project |
+| Other direct | Non-stock Purchase Invoice items on the project, excluding the invoices made from RA bills |
+
+**Cost variance** = budgeted cost of work done (measured qty × BOQ cost rate) − actual cost.
+
+**Permissions.** `grant_project_permissions` adds the EPC roles to Project, Task, Timesheet, Project Template and
+Activity Type once per rule (tracked in a default), so a rule an administrator later changes is not reapplied.
