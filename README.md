@@ -28,7 +28,7 @@ Roles: EPC MD, EPC Project Manager, EPC Site Engineer, EPC Billing Engineer, EPC
 ## Install
 
 ```bash
-bench get-app https://github.com/sanvidhi-git/sanvidhi_epc
+bench get-app https://github.com/sanvidhi-git/sanvidhi-epc
 bench --site <site> install-app sanvidhi_epc
 ```
 
